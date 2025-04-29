@@ -4,12 +4,12 @@ namespace CarInsuranceSalesBot.Services;
 
 public class InsuranceService
 {
-    private readonly OpenAiService _openAiService;
+    private readonly GeminiService _geminiService;
         private readonly ILogger<InsuranceService> _logger;
 
-        public InsuranceService(OpenAiService openAiService, ILogger<InsuranceService> logger)
+        public InsuranceService(GeminiService geminiService, ILogger<InsuranceService> logger)
         {
-            _openAiService = openAiService;
+            _geminiService = geminiService;
             _logger = logger;
         }
 
@@ -17,12 +17,12 @@ public class InsuranceService
         {
             _logger.LogInformation("Generating policy for {FullName}", data.FullName);
             
-            // Generate policy using OpenAI (unavailable due to billings of OpenAI API) 
-            string policyPrompt = $"Generate a car insurance policy for {data.FullName} for a {data.VehicleYear} " +
+            // Generate policy using Gemini 
+            string policyPrompt = $"Generate a car insurance policy without any text input brackets, just general text for {data.FullName} for a {data.VehicleYear} " +
                                  $"{data.VehicleMake} {data.VehicleModel} with license plate {data.VehiclePlateNumber}. " +
                                  $"The policy costs 100 USD and is valid for one year from today.";
             
-            string policyText = await _openAiService.GenerateResponseAsync(policyPrompt);
+            string policyText = await _geminiService.GenerateResponseAsync(policyPrompt);
             
             if (string.IsNullOrEmpty(policyText))
             {

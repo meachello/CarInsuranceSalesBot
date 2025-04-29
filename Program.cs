@@ -18,7 +18,7 @@ builder.Services.AddSingleton<ITelegramBotClient>(provider =>
 builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<TelegramBotService>();
 builder.Services.AddSingleton<UserSessionManager>();
-builder.Services.AddSingleton<OpenAiService>();
+builder.Services.AddSingleton<GeminiService>();
 builder.Services.AddSingleton<MindeeService>();
 builder.Services.AddSingleton<InsuranceService>();
 

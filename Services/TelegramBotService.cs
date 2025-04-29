@@ -22,7 +22,7 @@ public class TelegramBotService
         private readonly ITelegramBotClient _botClient;
         private readonly ILogger<TelegramBotService> _logger;
         private readonly UserSessionManager _sessionManager;
-        private readonly OpenAiService _openAiService;
+        private readonly GeminiService _geminiService;
         private readonly MindeeService _mindeeService;
         private readonly InsuranceService _insuranceService;
         private CancellationTokenSource _cts;
@@ -31,14 +31,14 @@ public class TelegramBotService
             ITelegramBotClient botClient,
             ILogger<TelegramBotService> logger,
             UserSessionManager sessionManager,
-            OpenAiService openAiService,
+            GeminiService geminiService,
             MindeeService mindeeService,
             InsuranceService insuranceService)
         {
             _botClient = botClient;
             _logger = logger;
             _sessionManager = sessionManager;
-            _openAiService = openAiService;
+            _geminiService = geminiService;
             _mindeeService = mindeeService;
             _insuranceService = insuranceService;
         }
@@ -245,7 +245,7 @@ public class TelegramBotService
 
         private async Task SendWelcomeMessageAsync(long chatId, CancellationToken cancellationToken)
         {
-            string welcomeMessage = await _openAiService.GenerateResponseAsync("Generate a friendly welcome message for a car insurance Telegram bot");
+            string welcomeMessage = await _geminiService.GenerateResponseAsync("Generate a friendly welcome message for a car insurance Telegram bot without any text input brackets, just general text");
             
             if (string.IsNullOrEmpty(welcomeMessage))
             {
@@ -261,7 +261,7 @@ public class TelegramBotService
         
         private async Task RequestDocumentsAsync(long chatId, CancellationToken cancellationToken)
         {
-            string documentRequest = await _openAiService.GenerateResponseAsync("Generate a message asking the user to submit a passport photo for car insurance");
+            string documentRequest = await _geminiService.GenerateResponseAsync("Generate a message asking the user to submit a passport photo for car insurance without any text input brackets, just general text");
             
             if (string.IsNullOrEmpty(documentRequest))
             {
@@ -328,7 +328,7 @@ public class TelegramBotService
         
         private async Task ConfirmPriceAsync(long chatId, CancellationToken cancellationToken)
         {
-            string priceMessage = await _openAiService.GenerateResponseAsync("Generate a message informing the user that car insurance costs 100 USD and asking for confirmation");
+            string priceMessage = await _geminiService.GenerateResponseAsync("Generate a short message informing the user that car insurance costs 100 USD and asking for confirmation without any text input brackets, just general text");
             
             if (string.IsNullOrEmpty(priceMessage))
             {
@@ -377,7 +377,7 @@ public class TelegramBotService
                 cancellationToken: cancellationToken);
             
             // Send completion message
-            string completionMessage = await _openAiService.GenerateResponseAsync("Generate a thank you message for completing car insurance purchase");
+            string completionMessage = await _geminiService.GenerateResponseAsync("Generate a short thank you message for completing car insurance purchase without any text input brackets, just general text");
             
             if (string.IsNullOrEmpty(completionMessage))
             {
